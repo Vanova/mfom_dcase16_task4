@@ -1,0 +1,160 @@
+# DCASE 2016 Task 4: Domestic Audio Tagging
+# ==========================================================
+# Flow
+# ==========================================================
+pipeline:
+  init_dataset: true
+  extract_features: true
+  visualize_features: false
+  search_hyperparams: false # true
+  train_system: true
+  test_system: false #true
+  evaluate_system: false
+  ensemble: false
+  visualize_network: false
+  visualize_scores: false
+
+# ==========================================================
+# General
+# ==========================================================
+experiment:
+  name: mfom_dcase16_task4
+  development_dataset: /home/vano/wrkdir/datasets/CHiMEHome-audiotag-development
+  submission_dataset: /home/vano/wrkdir/datasets/CHiMEHome-audiotag-evaluation
+  lists_dir: /home/vano/wrkdir/datasets/CHiMEHome-audiotag-development/evaluation_setup
+
+# ==========================================================
+# Paths of the experiments
+# ==========================================================
+path:
+  base: system/
+  meta: meta_data/
+  logs: logs/
+  features: features/
+  models: models/
+  hyper_search: hyper_search/
+  train_result: train_results/
+  eval_result: evaluate_results/
+  ensemble_results: ensemble_results/
+  submission: submissions/
+
+# ==========================================================
+# Feature extraction
+# ==========================================================
+features:
+  type: fbank
+
+  fbank:
+    bands: 64
+    fmax: 8000 # sample rate 16000 / 2
+    fmin: 0
+    hop_length_seconds: 0.01
+    htk: false
+    include_delta: false
+    include_acceleration: false
+    mono: true
+    n_fft: 1024
+    window: hamming_asymmetric
+    win_length_seconds: 0.025
+    delta:
+      width: 9
+    acceleration:
+      width: 9
+
+  stft:
+    # bands number = n_fft/2
+    fmax: 8000
+    fmin: 0
+    hop_length_seconds: 0.01
+    htk: false
+    include_delta: false
+    include_acceleration: false
+    mono: true
+    n_fft: 1024
+    window: hamming_asymmetric
+    win_length_seconds: 0.025
+    delta:
+      width: 9
+    acceleration:
+      width: 9
+
+
+# ==========================================================
+# Model settings
+# ==========================================================
+model:
+  type: cnn_dcase
+
+  cnn_dcase:
+    do_pretrain: true
+    do_finetune: true
+    pretrain_set:
+      metrics: [class_wise_eer, pooled_eer, micro_f1]
+      activation: elu
+      batch: 32
+      batch_type: seq_slide_wnd # rnd_wnd
+      context_wnd: 40
+      dropout: 0.5
+      feature_maps: 32
+      loss: binary_crossentropy # mfom_eer_normalized # mfom_microf1
+      learn_rate: 0.001
+      n_epoch: 200
+      optimizer: adam # sgd # adam # adadelta
+      out_score: sigmoid
+
+    finetune_set:
+      metrics: [class_wise_eer, pooled_eer, micro_f1]
+      batch: 32
+      batch_type: seq_slide_wnd
+      context_wnd: 40
+      dropout: 0.5
+      freeze_weights: false
+      loss: mfom_microf1
+      learn_rate: 0.001
+      n_epoch: 200
+      optimizer: sgd
+
+  crnn_dcase:
+    do_pretrain: true
+    do_finetune: true
+    pretrain_set:
+      metrics: [class_wise_eer, pooled_eer, micro_f1]
+      activation: elu
+      batch: 32
+      batch_type: rnd_wnd # mtag_oversmp, rnd_wnd, seq_slide_wnd
+      context_wnd: 96  # frame context
+      dropout: 0.5
+      feature_maps: 32
+      loss: binary_crossentropy # mfom_eer_uvz, mfom_eer_ovo, mfom_eer_uvz, mse, categorical_crossentropy
+      learn_rate: 0.001
+      n_epoch: 200
+      optimizer: adam
+      out_score: sigmoid
+
+    finetune_set:
+      metrics: [class_wise_eer, pooled_eer, micro_f1]
+      batch: 32 # TODO test with 16
+      batch_type: seq_slide_wnd
+      context_wnd: 96
+      dropout: 0.5
+      freeze_wt: false
+      loss: mfom_microf1
+      learn_rate: 0.001
+      optimizer: sgd
+      n_epoch: 200
+      optimizer: adam
+
+
+# ==========================================================
+# Trainer settings
+# ==========================================================
+callback:
+  monitor: micro_f1 # pooled_eer
+  mode: max # min
+  chpt_save_best_only: true
+  chpt_save_weights_only: true
+  lr_factor: 0.5
+  lr_patience: 5
+  lr_min: 0.00000001
+  estop_patience: 10
+  tensorboard_write_graph: true
