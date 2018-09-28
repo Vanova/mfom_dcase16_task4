@@ -5,6 +5,7 @@ import src.utils.dirs as dirs
 from src.base.pipeline import BasePipeline
 from src.data_loader.dcase import DCASEDataLoader
 from src.model.cnn_dcase import CNNDcaseModel
+from src.model.crnn_dcase import CRNNDcaseModel
 from src.trainer.dcase import DCASEModelTrainer
 
 
@@ -58,9 +59,9 @@ class DCASEApp(BasePipeline):
                 frame_wnd = self.config['model']['pretrain_set']['context_wnd']
                 feat_dim = (batch_sz, bands, frame_wnd, 1)
 
-                model = CNNDcaseModel(self.config['model']['pretrain_set'],
-                                      input_shape=feat_dim,
-                                      nclass=nclass)
+                model = CRNNDcaseModel(self.config['model']['pretrain_set'],
+                                       input_shape=feat_dim,
+                                       nclass=nclass)
                 print('Pre-train with loss: %s' % model.model.loss)
 
                 trainer = DCASEModelTrainer(model.model, self.data_loader, self.config,
@@ -81,9 +82,9 @@ class DCASEApp(BasePipeline):
                 frame_wnd = self.config['model']['pretrain_set']['context_wnd']
                 feat_dim = (batch_sz, bands, frame_wnd, 1)
 
-                pre_model = CNNDcaseModel(self.config['model']['pretrain_set'],
-                                          input_shape=feat_dim,
-                                          nclass=nclass)
+                pre_model = CRNNDcaseModel(self.config['model']['pretrain_set'],
+                                           input_shape=feat_dim,
+                                           nclass=nclass)
                 pre_model.load(mfile)
                 pre_model.chage_optimizer(self.config['model']['finetune_set'])
                 print('Finetune with loss: %s' % pre_model.model.loss)

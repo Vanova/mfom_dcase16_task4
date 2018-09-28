@@ -83,7 +83,7 @@ features:
 # Model settings
 # ==========================================================
 model:
-  type: cnn_dcase
+  type: crnn_dcase
 
   cnn_dcase:
     do_pretrain: true
@@ -121,7 +121,7 @@ model:
       metrics: [class_wise_eer, pooled_eer, micro_f1]
       activation: elu
       batch: 32
-      batch_type: rnd_wnd # mtag_oversmp, rnd_wnd, seq_slide_wnd
+      batch_type: seq_slide_wnd # rnd_wnd # mtag_oversmp, rnd_wnd, seq_slide_wnd
       context_wnd: 96  # frame context
       dropout: 0.5
       feature_maps: 32
