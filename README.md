@@ -189,7 +189,7 @@ with our proposed MFoM embedding approach. It is implemented in `src/model/objec
  as `mfom_eer_embed`.
  
 <p align="center">
-  <img width="350" height="150" src="docs/figures/mfom_embed_arch.png">
+  <img width="400" height="150" src="docs/figures/mfom_embed_arch.png">
 </p>
  
  You can fined the detailed description of the system in the paper 
