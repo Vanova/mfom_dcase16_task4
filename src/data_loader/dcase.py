@@ -230,8 +230,7 @@ class DCASE2016Task4Dev(BaseMeta):
         meta_dir: path of the processed metadata lists
         feat_conf: DotMap. Feature configuration
     """
-    DATA_TYPES = ['train', 'test']  # 'validation', 'test']
-
+    DATA_TYPES = ['train', 'test']
     # DATA_TYPES = dict(train='fold%d_train.txt',
     #                   val='fold%d_validation.txt',
     #                   test='fold%d_test.txt')
