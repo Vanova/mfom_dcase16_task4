@@ -1,5 +1,4 @@
-Multi-label MFoM framework for DCASE 2016: Task 4
--------------------------------------------------
+# Multi-label MFoM framework for DCASE 2016: Task 4
 
 [The SIPU Lab / University of Eastern Finland](https://www.uef.fi/web/machine-learning)
 
@@ -189,7 +188,9 @@ The only thing we change is the optimization, we finetune the pre-trained model
 with our proposed MFoM embedding approach. It is implemented in `src/model/objectives.py`
  as `mfom_eer_embed`.
  
- ![The MFoM embedding in the objective function](docs/figures/mfom_embed_arch.png =300x150)
+ <p align="center">
+  <img width="350" height="150" src="docs/figures/mfom_embed_arch.png">
+</p>
  
  You can fined the detailed description of the system in the paper 
 
