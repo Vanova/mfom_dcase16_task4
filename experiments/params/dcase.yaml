@@ -135,9 +135,8 @@ model:
       freeze_wt: false
       loss: mfom_eer_embed # mfom_microf1
       learn_rate: 0.001
-      optimizer: sgd
       n_epoch: 200
-      optimizer: adam
+      optimizer: sgd
 
 
 # ==========================================================

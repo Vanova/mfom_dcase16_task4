@@ -102,7 +102,7 @@ features: MFCC 14 static coefficients (excluding 0th coefficient)
 
 The baseline model is the convolutional recurrent neural network 
 
-![CRNN architecture](reports/figures/cnn_rnn_arch_spec.png)
+![CRNN architecture](docs/figures/cnn_rnn_arch_spec.png)
 
 The input features are 64-dimensional log-Mel filter banks spanning from 0 to 16kHz
 Context window is the size of 96 frames. We sequentially apply four convolution
@@ -120,7 +120,7 @@ The only thing we change is the optimization, we finetune the pre-trained model
 with our proposed MFoM embedding approach. It is implemented in `src/model/objectives.py`
  as `mfom_eer_embed`.
  
- ![The MFoM embedding in the objective function](reports/figures/mfom_embed_arch.png =300x150)
+ ![The MFoM embedding in the objective function](docs/figures/mfom_embed_arch.png =300x150)
  
  You can fined the detailed description of the system in the paper 
 
@@ -241,10 +241,10 @@ This is the model settings for pretraining and training.
               dropout: 0.5
               freeze_wt: false
               loss: mfom_eer_embed # mfom_microf1
-              learn_rate: 0.001
-              optimizer: sgd
+              learn_rate: 0.001              
               n_epoch: 200
-              optimizer: adam
+              optimizer: sgd
+              
 
 We can define several types of models and specify the particular model 
 in the parameter `type`. Currently we use CRNN model (`type: crnn_dcase`), 
