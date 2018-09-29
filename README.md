@@ -97,7 +97,7 @@ In order to run the system in this mode:
 System results
 ==============
 
-* Dataset: ** CHiME-Home-refine --  development set **
+* Dataset: **CHiME-Home-refine --  development set**
 
 * Evaluation setup provided by the organizers of DCASE 16: 5-fold cross-validation, 7 classes.
 You can fined folds meta data in `data/dcase_meta/`.
