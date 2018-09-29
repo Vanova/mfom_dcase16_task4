@@ -46,7 +46,7 @@ and activate the environment
 
 `$ source activate ai`
 
-Specifically the project is working with Keras 2.0.2, Tensorflow-GPU 1.4.1.
+Specifically the project is working with [Keras 2.0.2](https://keras.io/), [Tensorflow-GPU 1.4.1](https://www.tensorflow.org/).
 
 Usage
 =====
@@ -105,6 +105,8 @@ features: MFCC 14 static coefficients (excluding 0th coefficient)
 The baseline model is the convolutional recurrent neural network 
 
 ![CRNN architecture](docs/figures/cnn_rnn_arch_spec.png)
+
+Network summary
 
 ```
 _________________________________________________________________
