@@ -124,7 +124,7 @@ The only thing we change is the optimization, we finetune the pre-trained model
 with our proposed MFoM embedding approach. It is implemented in `src/model/objectives.py`
  as `mfom_eer_embed`.
  
- ![The MFoM embedding in the objective function](reports/figures/mfom_embed_arch.png =300x150)
+ ![The MFoM embedding in the objective function](reports/figures/mfom_embed_arch.png){ width=50% }
 
 The MFoM approaches
 ===================
