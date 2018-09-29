@@ -34,7 +34,23 @@ The proposed MFoM approaches are used in the series of works
 * [Recurrent Neural Network and Maximal Figure of Merit for Acoustic Event Detection](http://www.cs.tut.fi/sgn/arg/dcase2017/documents/challenge_technical_reports/DCASE2017_Kukanov_196.pdf)
 * [Deep learning with Maximal Figure-of-Merit Cost to Advance Multi-label Speech Attribute Detection](http://cs.joensuu.fi/~villeh/slt_2016.pdf)
 
-Installation
+
+## Table of Contents
+<!-- ⛔️ MD-MAGIC-EXAMPLE:START (TOC:collapse=true&collapseText=Click to expand) -->
+<details>
+<summary>Click to expand</summary>
+
+- [About](#about)
+- [Install](#Install)
+- [Usage](#usage)
+- [System results](#system-results)
+- [License](#license)
+
+</details>
+<!-- ⛔️ MD-MAGIC-EXAMPLE:END -->
+
+
+Install
 ============
 
 The system is developed for [Python 2.7](https://www.python.org/). 
@@ -356,6 +372,7 @@ Changelog
 
 Citation
 ========
+If you use the code or materials of this project, please cite as
 ```bibteh
 @inproceedings{
   author    = {Ivan Kukanov and Ville Hautam{\"{a}}ki and Kong Aik Lee},
