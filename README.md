@@ -44,9 +44,15 @@ Table of Contents
 - [About](#about)
 - [Install](#install)
 - [Usage](#usage)
-- [The GMM baseline model](#the-gmm-baseline-model)
-- [The CRNN baseline model](#the-crnn-baseline-model)
 - [System results](#system-results)
+  * [The GMM baseline model](#the-gmm-baseline-model)
+  * [The CRNN baseline model](#the-crnn-baseline-model)
+  * [The MFoM embedding with CRNN model](#the-mfom-embedding-with-crnn-model)
+  * [Comparison table of results](#comparison-table-of-results)
+- [The MFoM approaches](#the-mfom-approaches)
+- [System parameters](#system-parameters)
+- [Changelog](#changelog)
+- [Citation](#citation)
 - [License](#license)
 
 </details>
@@ -96,22 +102,7 @@ System results
 * Evaluation setup provided by the organizers of DCASE 16: 5-fold cross-validation, 7 classes.
 You can fined folds meta data in `data/dcase_meta/`.
 
-**The equal error rate (EER) results per audio tag**
-
-| Tag                  | GMM baseline | CRNN baseline | CRNN with MFoM |
-| -------------------- | ------------ | ------------- | -------------  |
-| Adult female speech  | 0.29         | 0.19          | **0.18**           |
-| Adult male speech    | 0.30         | 0.13          | **0.11**           |
-| Broadband noise      | 0.09         | 0.06          | **0.03**           |
-| Child speech         | 0.20         | 0.16          | **0.15**           |
-| Other                | 0.29         | 0.25          | **0.23**           |
-| Percussive sound     | 0.25         | 0.15          | **0.14**           |
-| Video game/tv        | 0.07         | 0.02          | 0.02           |
-| **Mean error**       | 0.21         | 0.14          | **0.12**           |
-
-
-
-#### The GMM baseline model
+### The GMM baseline model
 
 This baseline is provided by the oranizers of the DCASE 2016: task4. 
 Baseline [github](https://github.com/pafoster/dcase2016_task4/tree/master/baseline). 
@@ -121,7 +112,7 @@ System main parameters
 frame size: 20 ms (50% hop size), number of components: 8, 
 features: MFCC 14 static coefficients (excluding 0th coefficient)
 
-#### The CRNN baseline model
+### The CRNN baseline model
 
 The baseline model is the convolutional recurrent neural network 
 
@@ -203,7 +194,7 @@ In all the hidden layers the exponential linear units
 The binary cross-entropy objective function (BCE) is optimized using Adam
 optimization algorithm with the learning rate 10−3.  
 
-#### The MFoM embedding approach with CRNN model
+### The MFoM embedding approach with CRNN model
 
 For the CRNN model with MFoM we use the above mentioned baseline CRNN model weights.
 The only thing we change is the optimization, we finetune the pre-trained model 
@@ -219,6 +210,23 @@ with our proposed MFoM embedding approach. It is implemented in `src/model/objec
 [Maximal Figure-of-Merit Embedding for Multi-label Audio Classification](http://cs.joensuu.fi/~villeh/MFoM-ICASSP2017.pdf)
 
 [Presentation at the ICASSP 2018](https://sigport.org/documents/maximal-figure-merit-embedding-multi-label-audio-classification)
+
+
+### Comparison table of results
+
+Performance measure is the equal error rate (EER) per audio tag
+
+| Tag                  | GMM baseline | CRNN baseline | CRNN with MFoM |
+| -------------------- | ------------ | ------------- | -------------  |
+| Adult female speech  | 0.29         | 0.19          | **0.18**           |
+| Adult male speech    | 0.30         | 0.13          | **0.11**           |
+| Broadband noise      | 0.09         | 0.06          | **0.03**           |
+| Child speech         | 0.20         | 0.16          | **0.15**           |
+| Other                | 0.29         | 0.25          | **0.23**           |
+| Percussive sound     | 0.25         | 0.15          | **0.14**           |
+| Video game/tv        | 0.07         | 0.02          | 0.02           |
+| **Mean error**       | 0.21         | 0.14          | **0.12**           |
+
 
 
 The MFoM approaches
