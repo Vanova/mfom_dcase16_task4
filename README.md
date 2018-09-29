@@ -71,7 +71,23 @@ System results
 
 * Dataset: ** CHiME-Home-refine --  development set **
 
-* Evaluation setup: 5-fold cross-validation, 7 classes.
+* Evaluation setup provided by the organizers of DCASE 16: 5-fold cross-validation, 7 classes.
+You can fined folds meta data in `data/dcase_meta/`.
+
+The equal error rate (EER) results per tag:
+
+| Tag                  | GMM baseline | CRNN baseline | CRNN with MFoM |
+| -------------------- | ------------ | ------------- | -------------  |
+| Adult female speech  | 0.29         | 0.19          | **0.18**           |
+| Adult male speech    | 0.30         | 0.13          | **0.11**           |
+| Broadband noise      | 0.09         | 0.06          | **0.03**           |
+| Child speech         | 0.20         | 0.16          | **0.15**           |
+| Other                | 0.29         | 0.25          | **0.23**           |
+| Percussive sound     | 0.25         | 0.15          | **0.14**           |
+| Video game/tv        | 0.07         | 0.02          | 0.02           |
+| **Mean error**       | 0.21         | 0.14          | **0.12**           |
+
+
 
 #### GMM baseline model
 
@@ -82,19 +98,11 @@ System main parameters
 frame size: 20 ms (50% hop size), number of components: 8, 
 features: MFCC 14 static coefficients (excluding 0th coefficient)
 
-| Tag                  | EER      |
-| -------------------- | -------- |
-| Adult female speech  | 0.29     |
-| Adult male speech    | 0.30     | 
-| Broadband noise      | 0.09     |
-| Child speech         | 0.20     |
-| Other                | 0.29     |
-| Percussive sound     | 0.25     | 
-| Video game/tv        | 0.07     | 
-| **Mean error**       | **0.21** | 
-
 #### CRNN baseline model
 
+
+* You can fined the detailed description of the system in the paper:
+[Maximal Figure-of-Merit Embedding for Multi-label Audio Classification](http://cs.joensuu.fi/~villeh/MFoM-ICASSP2017.pdf)
 
 
 #### MFoM approach with CRNN model
@@ -103,9 +111,9 @@ features: MFCC 14 static coefficients (excluding 0th coefficient)
 The MFoM approaches
 ===================
 
-## MFoM embedding
+#### MFoM embedding
 
-## MFoM-microF1 / MFoM-EER / MFoM-Cprim 
+#### MFoM-microF1 / MFoM-EER / MFoM-Cprim 
 
 
 Project Organization
@@ -167,3 +175,15 @@ Project Organization
     └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org
 
 --------
+
+Changelog
+=========
+
+#### 0.0.1 / 2018-09-29
+
+* First public release
+
+License
+=======
+
+This software is released under the terms of the [MIT License].
