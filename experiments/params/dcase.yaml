@@ -121,11 +121,11 @@ model:
       metrics: [class_wise_eer, pooled_eer, micro_f1]
       activation: elu
       batch: 32
-      batch_type: seq_slide_wnd # rnd_wnd # mtag_oversmp, rnd_wnd, seq_slide_wnd
+      batch_type: seq_slide_wnd
       context_wnd: 96  # frame context
       dropout: 0.5
       feature_maps: 32
-      loss: binary_crossentropy # mfom_eer_uvz, mfom_eer_ovo, mfom_eer_uvz, mse, categorical_crossentropy
+      loss: binary_crossentropy # mfom_microf1 # mfom_eer_normalized # mfom_cprim
       learn_rate: 0.001
       n_epoch: 200
       optimizer: adam
@@ -133,12 +133,12 @@ model:
 
     finetune_set:
       metrics: [class_wise_eer, pooled_eer, micro_f1]
-      batch: 32 # TODO test with 16
+      batch: 32
       batch_type: seq_slide_wnd
       context_wnd: 96
       dropout: 0.5
       freeze_wt: false
-      loss: mfom_microf1
+      loss: mfom_eer_embed # mfom_microf1
       learn_rate: 0.001
       optimizer: sgd
       n_epoch: 200

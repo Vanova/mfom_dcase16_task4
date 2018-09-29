@@ -83,9 +83,6 @@ class CRNNDcaseModel(BaseModel):
 
         self._compile_model(input=feat_input, output=y_pred, params=self.config)
 
-    def rebuild(self, new_config):
-        pass
-
     def chage_optimizer(self, new_config):
         """
         Recompile the model with the new loss and optimizer.

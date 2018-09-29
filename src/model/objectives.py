@@ -1,5 +1,5 @@
 """
-# References
+# Citations
     "Deep learning with Maximal Figure-of-Merit Cost to Advance Multi-label Speech Attribute Detection"
     Ivan Kukanov, V. Hautam{\"a}ki, Marco Siniscalchi and Kehuang Li.
     "Maximal Figure-of-Merit Embedding for Multi-label Audio Classification"
@@ -34,7 +34,6 @@ def mfom_eer_normalized(y_true, y_pred):
 
 
 def mfom_microf1(y_true, y_pred):
-    # TODO test!
     p = 1. - y_pred
     numen = 2. * K.sum(p * y_true)
     denum = K.sum(p + y_true)
@@ -43,7 +42,6 @@ def mfom_microf1(y_true, y_pred):
 
 
 def mfom_cprim(y_true, y_pred):
-    # TODO test!
     y_neg = 1 - y_true
     # number of positive samples
     P = K.sum(y_true)
@@ -58,19 +56,18 @@ def mfom_cprim(y_true, y_pred):
     # === pooled TRUE
     fnr = K.sum(fn) / P
     fpr = K.sum(fp) / N
-    smooth_eer = 0.5 * fnr + 10. * fpr  # 11.86
+    smooth_eer = 0.5 * fnr + 10. * fpr
     return smooth_eer
 
 
 def mfom_eer_embed(y_true, y_pred):
-    # TODO check how to implements as a layer
     """
     MFoM embedding: use MFoM scores as new "soft labels", aka Dark Knowledge by Hinton
        y_true: [batch_sz, nclasses]
        y_pred: sigmoid scores, we preprocess these to d_k and l_k, i.e. loss function l_k(Z)
    """
-    alpha = 3.  # 10., 5.0 # 0.1, 1., 10, 5.0, 3.0
-    beta = 0.0
+    alpha = 3.
+    beta = 0.
     n_embed = 2
     l = _uvz_loss_scores(y_true, y_pred, alpha, beta)
     l_score = 1 - l

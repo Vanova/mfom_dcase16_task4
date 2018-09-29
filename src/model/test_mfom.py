@@ -5,6 +5,7 @@ from keras.layers import BatchNormalization, Dense, Activation, Input
 import matplotlib.pyplot as plt
 import mfom
 import objectives as obj
+
 np.random.seed(777)
 
 
@@ -14,6 +15,7 @@ def generate_dataset(output_dim=14, num_examples=10000):
     Input is two binary numbers, stacked in one vector.
     Output is an integer number.
     """
+
     def int2vec(x, dim=output_dim):
         out = np.zeros(dim)
         binrep = np.array(list(np.binary_repr(x))).astype('int')
@@ -31,10 +33,7 @@ def generate_dataset(output_dim=14, num_examples=10000):
     y = list()
     for i in range(len(y_int)):
         y.append(int2vec(y_int[i]))
-
-    x = np.array(x)
-    y = np.array(y)
-    return x, y
+    return np.array(x), np.array(y)
 
 
 if __name__ == '__main__':
@@ -56,11 +55,10 @@ if __name__ == '__main__':
 
     # class Loss function layer
     out = mfom.SmoothErrorCounter(name='smooth_error_counter')(psi)
-    # out = BatchNormalization()(psi)
 
     # compile model
     model = Model(input=[y_true, feat_input], output=out)
-    model.compile(loss=obj.mfom_eer_normalized, optimizer='Adam') # Adam, Adadelta
+    model.compile(loss=obj.mfom_eer_normalized, optimizer='Adam')  # Adam, Adadelta
     model.summary()
 
     # dataset

@@ -28,11 +28,9 @@ cross-entropy.
 
 The proposed MFoM approaches are used in the series of works:
 
-* 
-* ICASSP 18
-* DCASE 17
-* DCASE 16
-* SLT 16
+* [Maximal Figure-of-Merit Embedding for Multi-label Audio Classification](http://cs.joensuu.fi/~villeh/MFoM-ICASSP2017.pdf)
+* [Recurrent Neural Network and Maximal Figure of Merit for Acoustic Event Detection](http://www.cs.tut.fi/sgn/arg/dcase2017/documents/challenge_technical_reports/DCASE2017_Kukanov_196.pdf)
+* [Deep learning with Maximal Figure-of-Merit Cost to Advance Multi-label Speech Attribute Detection](http://cs.joensuu.fi/~villeh/slt_2016.pdf)
 
 Installation
 ============
@@ -100,81 +98,37 @@ features: MFCC 14 static coefficients (excluding 0th coefficient)
 
 #### CRNN baseline model
 
+The baseline convolutional recurrent neural network with setting 
 
-* You can fined the detailed description of the system in the paper:
+![CRNN architecture](reports/figures/cnn_rnn_arch_spec.png "Title")
+
+The input features are 64-dimensional log-Mel filter banks spanning from 0 to 16kHz
+Context window is the size of 96 frames. We sequentially apply four convolution
+mappings and max-pooling along the frequency and time axis. 
+Then the result of the convolutions is fed to the gated recurrent unit (GRU) with 24 time steps. 
+In all the hidden layers the exponential linear units
+(ELUs) are used. Output layer produces sigmoid confidence scores for every acoustic event.
+We optimize the binary cross-entropy objective function (BCE) using Adam
+optimization algorithm with the learning rate 10−3.  
+
+You can fined the detailed description of the system in the paper 
+
 [Maximal Figure-of-Merit Embedding for Multi-label Audio Classification](http://cs.joensuu.fi/~villeh/MFoM-ICASSP2017.pdf)
 
+#### The MFoM embedding approach with CRNN model
 
-#### MFoM approach with CRNN model
-
+For the CRNN model with MFoM we use the above mentioned baseline CRNN model weights.
+The only thing we change is the optimization, we finetune the pre-trained model 
+with our proposed MFoM embedding approach. 
 
 The MFoM approaches
 ===================
 
-#### MFoM embedding
-
-#### MFoM-microF1 / MFoM-EER / MFoM-Cprim 
-
-
-Project Organization
-====================
-
-    |── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── envs               <- Environment settings files: Anaconda, Dockerfile
-    ├── experiments
-    │   ├── logs
-    │   ├── params         <- Training settings, hyperparameters
-    │   ├── submissions    <- Evaluation model results, submission to the challenge leaderboard
-    │   ├── system         <- Trained and serialized models, model predictions, or model summaries
-    │   └── experiment.py  <- Main file to run the particular experiment, it is based on the framework in 'src' folder
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Manuals, literature and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── src                <- Main source code for use in this project. Framework structure.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    |
-    ├── test_environment.py
-    |
-    ├── tests              <- Test framework code from 'src' folder
-    │   └── data           <- data for testing
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org
-
---------
+In this project we release bunch of MFoM approaches. These are MFoM embedding, 
+MFoM-microF1, MFoM-EER, MFoM-Cprim. 
+These approaches allow to optimize the performance metrics directly 
+versus indirect optimization approaches with MSE, cross-entropy, binary cross-entropy
+  and other objective functions.
 
 Changelog
 =========
