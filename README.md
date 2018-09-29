@@ -74,7 +74,7 @@ System results
 * Evaluation setup provided by the organizers of DCASE 16: 5-fold cross-validation, 7 classes.
 You can fined folds meta data in `data/dcase_meta/`.
 
-The equal error rate (EER) results per tag:
+**The equal error rate (EER) results per audio tag**
 
 | Tag                  | GMM baseline | CRNN baseline | CRNN with MFoM |
 | -------------------- | ------------ | ------------- | -------------  |
@@ -110,12 +110,8 @@ mappings and max-pooling along the frequency and time axis.
 Then the result of the convolutions is fed to the gated recurrent unit (GRU) with 24 time steps. 
 In all the hidden layers the exponential linear units
 (ELUs) are used. Output layer produces sigmoid confidence scores for every acoustic event.
-We optimize the binary cross-entropy objective function (BCE) using Adam
+The binary cross-entropy objective function (BCE) is optimized using Adam
 optimization algorithm with the learning rate 10−3.  
-
-You can fined the detailed description of the system in the paper 
-
-[Maximal Figure-of-Merit Embedding for Multi-label Audio Classification](http://cs.joensuu.fi/~villeh/MFoM-ICASSP2017.pdf)
 
 #### The MFoM embedding approach with CRNN model
 
@@ -125,6 +121,11 @@ with our proposed MFoM embedding approach. It is implemented in `src/model/objec
  as `mfom_eer_embed`.
  
  ![The MFoM embedding in the objective function](reports/figures/mfom_embed_arch.png =300x150)
+ 
+ You can fined the detailed description of the system in the paper 
+
+[Maximal Figure-of-Merit Embedding for Multi-label Audio Classification](http://cs.joensuu.fi/~villeh/MFoM-ICASSP2017.pdf)
+
 
 The MFoM approaches
 ===================
@@ -136,6 +137,137 @@ versus indirect optimization approaches with MSE, cross-entropy, binary cross-en
   and other objective functions.
 
 **Note**: the more detailed description will be presented soon.
+
+System parameters
+=================================
+
+The parameters are set in `experiments/params/dcase.yaml`.
+
+**Controlling the system pipeline flow**
+
+The pipeline of the system can be controlled through the configuration file. 
+    
+    pipeline:
+        init_dataset: true
+        extract_features: true
+        search_hyperparams: false
+        train_system: true
+        test_system: true
+
+**General parameters**
+
+Dataset and experiment general settings
+
+    experiment:
+        name: mfom_dcase16_task4
+        development_dataset: <path to the development dataset>
+        submission_dataset: <path to the submission dataset>
+        lists_dir: <path to the original meta data of the dataset>
+
+**System paths**
+
+This section contains the storage paths of the trained systems    
+
+     path:
+        base: system/
+        meta: meta_data/
+        logs: logs/
+        features: features/
+        models: models/
+        hyper_search: hyper_search/
+        train_result: train_results/
+        eval_result: evaluate_results/
+        ensemble_results: ensemble_results/
+        submission: submissions/
+      
+    
+These parameters defines the folder-structure to store acoustic features, 
+trained acoustic models and store results.
+
+**Feature extraction**
+
+This section contains the feature extraction related parameters. 
+
+    features:
+      type: fbank    
+      fbank:
+        bands: 64
+        fmax: 8000 # sample rate 16000 / 2
+        fmin: 0
+        hop_length_seconds: 0.01
+        htk: false
+        include_delta: false
+        include_acceleration: false
+        mono: true
+        n_fft: 1024
+        window: hamming_asymmetric
+        win_length_seconds: 0.025
+        delta:
+          width: 9
+        acceleration:
+          width: 9
+
+We can define several types of features and specify the particular features 
+in the parameter `type`. Currently we use Mel-filter banks (`type: fbank`).
+
+**Model settings**
+
+This is the model settings for pretraining and training. 
+
+    model:
+        type: crnn_dcase        
+        crnn_dcase:
+            do_pretrain: true
+            do_finetune: true
+            pretrain_set:
+              metrics: [class_wise_eer, pooled_eer, micro_f1]
+              activation: elu
+              batch: 32
+              batch_type: seq_slide_wnd
+              context_wnd: 96  # frame context
+              dropout: 0.5
+              feature_maps: 32
+              loss: binary_crossentropy # mfom_microf1 # mfom_eer_normalized # mfom_cprim
+              learn_rate: 0.001
+              n_epoch: 200
+              optimizer: adam
+              out_score: sigmoid
+        
+            finetune_set:
+              metrics: [class_wise_eer, pooled_eer, micro_f1]
+              batch: 32
+              batch_type: seq_slide_wnd
+              context_wnd: 96
+              dropout: 0.5
+              freeze_wt: false
+              loss: mfom_eer_embed # mfom_microf1
+              learn_rate: 0.001
+              optimizer: sgd
+              n_epoch: 200
+              optimizer: adam
+
+We can define several types of models and specify the particular model 
+in the parameter `type`. Currently we use CRNN model (`type: crnn_dcase`), 
+there is also CNN model settings. We can specify either we do model 
+pretrainig and tuning or only pretraining (`do_pretrain: true` and `do_finetune: true`).
+We can choose several metrics to calculate and monitor during training (`metrics: [class_wise_eer, pooled_eer, micro_f1]`).
+
+
+**Trainer and callbacks settings**
+
+Set up parameters for metric of performance for monitoring, learning rate schedule,
+ early stopping, tensorboard settings.
+
+    callback:
+      monitor: micro_f1 # pooled_eer
+      mode: max # min
+      chpt_save_best_only: true
+      chpt_save_weights_only: true
+      lr_factor: 0.5
+      lr_patience: 5
+      lr_min: 0.00000001
+      estop_patience: 10
+      tensorboard_write_graph: true
 
 Changelog
 =========

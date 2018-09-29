@@ -98,6 +98,3 @@ class DCASEApp(BasePipeline):
 
     def system_test(self):
         print('[TODO] test system: store the testing prediction scores...')
-
-    def system_evaluate(self):
-        print('[TODO] evaluate system: store the prediction scores...')

@@ -14,7 +14,7 @@ from src.trainer.mnist import ModelValidator
 np.random.seed(777)
 
 
-class CNNMnistHyperSearch(object):
+class HyperSearch(object):
     MAX_RUNS = 20
     MAX_EPOCHS = 10
 
@@ -86,8 +86,6 @@ class CNNMnistHyperSearch(object):
 
             # save trial history
             with open(self.history_file, 'w') as f:
-                # self.hp_history = self.hp_history.append(trials.results[-step:])
-                # self.hp_history.sort_values('loss', ascending=True, inplace=True)
                 self.hp_history = pd.DataFrame(sort_res)
                 self.hp_history.reset_index(inplace=True, drop=True)
                 self.hp_history.to_csv(f)

@@ -5,14 +5,9 @@
 pipeline:
   init_dataset: true
   extract_features: true
-  visualize_features: false
   search_hyperparams: false # true
   train_system: true
   test_system: false #true
-  evaluate_system: false
-  ensemble: false
-  visualize_network: false
-  visualize_scores: false
 
 # ==========================================================
 # General
