@@ -47,7 +47,7 @@ Table of Contents
 - [System results](#system-results)
   * [The GMM baseline model](#the-gmm-baseline-model)
   * [The CRNN baseline model](#the-crnn-baseline-model)
-  * [The MFoM embedding with CRNN model](#the-mfom-embedding-with-crnn-model)
+  * [The CRNN model with the MFoM embedding](#the-crnn-model-with-the-mfom-embedding)
   * [Comparison table of results](#comparison-table-of-results)
 - [The MFoM approaches](#the-mfom-approaches)
 - [System parameters](#system-parameters)
@@ -194,7 +194,7 @@ In all the hidden layers the exponential linear units
 The binary cross-entropy objective function (BCE) is optimized using Adam
 optimization algorithm with the learning rate 10−3.  
 
-### The MFoM embedding with CRNN model
+### CRNN model with the MFoM embedding
 
 For the CRNN model with MFoM we use the above mentioned baseline CRNN model weights.
 The only thing we change is the optimization, we finetune the pre-trained model 
