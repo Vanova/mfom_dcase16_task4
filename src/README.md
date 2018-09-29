@@ -4,7 +4,7 @@ Multi-label MFoM framework for DCASE 2016: Task 4
 Project architecture
 ====================
 
-![Architecture of the base framework](../docs/figures/mfom_embed_arch.png)
+![Architecture of the base framework](../docs/figures/architecture_base_framework.png)
 
 
 Structure of packages
