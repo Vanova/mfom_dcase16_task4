@@ -160,13 +160,13 @@ class SequentialGenerator(BaseGenerator):
 
                 for start in range(0, last, self.hop_frames):
                     if count_smp < self.batch_sz:
-                        X.append(feat[:, start:start + self.window, :])
-                        Y.append(lab)
                         count_smp += 1
                     else:
                         yield np.array(X), np.array(Y)
-                        count_smp = 0
+                        count_smp = 1
                         X, Y = [], []
+                    X.append(feat[:, start:start + self.window, :])
+                    Y.append(lab)
 
     def batch_shape(self):
         """
@@ -207,16 +207,13 @@ class ValidationGenerator(SequentialGenerator):
             else:
                 for start in xrange(0, last, self.hop_frames):
                     if count_smp < self.batch_sz:
-                        X.append(feat[:, start:start + self.window, :])
-                        Y.append(lab)
                         count_smp += 1
                     else:
                         yield np.array(X), np.array(Y)
-                        count_smp = 0
+                        count_smp = 1
                         X, Y = [], []
-                        X.append(feat[:, start:start + self.window, :])
-                        Y.append(lab)
-                        count_smp += 1
+                    X.append(feat[:, start:start + self.window, :])
+                    Y.append(lab)
 
 
 class DCASE2016Task4Dev(BaseMeta):
