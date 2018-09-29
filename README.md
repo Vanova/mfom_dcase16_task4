@@ -61,8 +61,9 @@ The system parameters are defined in `experiments/params/dcase.yaml`.
 
 #### Development mode
 
-In this mode the system is trained and tested within the development dataset. 
-This is the default operating mode. To run the system in this mode:
+In this mode the system is trained and tested with the development dataset. 
+This is the default operating mode. 
+In order to run the system in this mode:
 
 `python run_dcase.py -m dev` or `run_dcase.py -m dev -p params/dcase.yaml`.
 
@@ -91,6 +92,7 @@ You can fined folds meta data in `data/dcase_meta/`.
 
 #### The GMM baseline model
 
+This baseline is provided by the oranizers of the DCASE 2016: task4. 
 Baseline [github](https://github.com/pafoster/dcase2016_task4/tree/master/baseline). 
 
 System main parameters
@@ -104,7 +106,72 @@ The baseline model is the convolutional recurrent neural network
 
 ![CRNN architecture](docs/figures/cnn_rnn_arch_spec.png)
 
-The input features are 64-dimensional log-Mel filter banks spanning from 0 to 16kHz
+```
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input (InputLayer)           (None, 64, 96, 1)         0         
+_________________________________________________________________
+bn_0_freq (BatchNormalizatio (None, 64, 96, 1)         256       
+_________________________________________________________________
+conv1 (Conv2D)               (None, 64, 96, 32)        320       
+_________________________________________________________________
+bn1 (BatchNormalization)     (None, 64, 96, 32)        128       
+_________________________________________________________________
+elu_1 (ELU)                  (None, 64, 96, 32)        0         
+_________________________________________________________________
+pool1 (MaxPooling2D)         (None, 32, 48, 32)        0         
+_________________________________________________________________
+dropout1 (Dropout)           (None, 32, 48, 32)        0         
+_________________________________________________________________
+conv2 (Conv2D)               (None, 32, 48, 32)        9248      
+_________________________________________________________________
+bn2 (BatchNormalization)     (None, 32, 48, 32)        128       
+_________________________________________________________________
+elu_2 (ELU)                  (None, 32, 48, 32)        0         
+_________________________________________________________________
+pool2 (MaxPooling2D)         (None, 8, 24, 32)         0         
+_________________________________________________________________
+dropout2 (Dropout)           (None, 8, 24, 32)         0         
+_________________________________________________________________
+conv3 (Conv2D)               (None, 8, 24, 64)         18496     
+_________________________________________________________________
+bn3 (BatchNormalization)     (None, 8, 24, 64)         256       
+_________________________________________________________________
+elu_3 (ELU)                  (None, 8, 24, 64)         0         
+_________________________________________________________________
+pool3 (MaxPooling2D)         (None, 2, 24, 64)         0         
+_________________________________________________________________
+dropout3 (Dropout)           (None, 2, 24, 64)         0         
+_________________________________________________________________
+conv4 (Conv2D)               (None, 2, 24, 64)         36928     
+_________________________________________________________________
+bn4 (BatchNormalization)     (None, 2, 24, 64)         256       
+_________________________________________________________________
+elu_4 (ELU)                  (None, 2, 24, 64)         0         
+_________________________________________________________________
+pool4 (MaxPooling2D)         (None, 1, 24, 64)         0         
+_________________________________________________________________
+dropout4 (Dropout)           (None, 1, 24, 64)         0         
+_________________________________________________________________
+reshape_1 (Reshape)          (None, 24, 64)            0         
+_________________________________________________________________
+gru2 (GRU)                   (None, 32)                9312      
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 32)                0         
+_________________________________________________________________
+output_preactivation (Dense) (None, 8)                 264       
+_________________________________________________________________
+output (Activation)          (None, 8)                 0         
+=================================================================
+Total params: 75,592.0
+Trainable params: 75,080.0
+Non-trainable params: 512.0
+_________________________________________________________________
+Pre-train with loss: binary_crossentropy
+```
+
+The input features are 64-dimensional log-Mel filter banks spanning from 0 to 16kHz.
 Context window is the size of 96 frames. We sequentially apply four convolution
 mappings and max-pooling along the frequency and time axis. 
 Then the result of the convolutions is fed to the gated recurrent unit (GRU) with 24 time steps. 
@@ -126,6 +193,8 @@ with our proposed MFoM embedding approach. It is implemented in `src/model/objec
 
 [Maximal Figure-of-Merit Embedding for Multi-label Audio Classification](http://cs.joensuu.fi/~villeh/MFoM-ICASSP2017.pdf)
 
+[Presentation at the ICASSP 2018](https://sigport.org/documents/maximal-figure-merit-embedding-multi-label-audio-classification)
+
 
 The MFoM approaches
 ===================
@@ -134,7 +203,9 @@ In this project we release bunch of MFoM approaches. These are MFoM embedding,
 MFoM-microF1, MFoM-EER, MFoM-Cprim. 
 These approaches allow to optimize the performance metrics directly 
 versus indirect optimization approaches with MSE, cross-entropy, binary cross-entropy
-  and other objective functions.
+  and other objective functions. 
+ The implementation of the MFoM objective functions and layers see in `src/model/objectives.py`
+  and `src/model/mfom.py`.
 
 **Note**: the more detailed description will be presented soon.
 
@@ -272,10 +343,18 @@ Set up parameters for metric of performance for monitoring, learning rate schedu
 Changelog
 =========
 
-#### 0.0.1 / 2018-09-29
+#### 0.0.1 / 2018-09-20
 
 * First public release
 
+Citation
+========
+```bibteh
+@inproceedings{
+  author    = {Ivan Kukanov and Ville Hautam{\"{a}}ki and Kong Aik Lee},
+  title     = {Maximal Figure-of-Merit Embedding for Multi-label Audio Classification},
+}
+```
 License
 =======
 

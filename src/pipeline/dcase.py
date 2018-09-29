@@ -3,10 +3,11 @@ import src.trainer.dcase_hyper as HP
 import src.utils.config as cfg
 import src.utils.dirs as dirs
 from src.base.pipeline import BasePipeline
+import src.data_loader.dcase as DL
 from src.data_loader.dcase import DCASEDataLoader
 from src.model.cnn_dcase import CNNDcaseModel
 from src.model.crnn_dcase import CRNNDcaseModel
-from src.trainer.dcase import DCASEModelTrainer
+from src.trainer.dcase import DCASEModelTrainer, ModelValidator
 
 
 class DCASEApp(BasePipeline):
@@ -30,15 +31,17 @@ class DCASEApp(BasePipeline):
             print('[INFO] There is feature file: %s' % feat_file)
 
     def search_hyperparams(self):
-        # initialize default model
-        # def_model = MLPDcaseModel(self.config['model']['pretrain_set'])
         dirs.mkdir(self.config['path']['hyper_search'])
-        hp_srch = HP.MLPDcaseHyperSearch(data=self.data_loader,
-                                         config=self.config,
-                                         verbose=self.verbose,
-                                         overwrite=self.overwrite)
-        res = hp_srch.run_search()
-        print(res)
+        # initialize default model
+        nclass = len(self.data_loader.meta_data.label_names)
+        model = self.inflate_model(self.config, nclass, train_mode='pretrain_set')
+
+        hp_srch = HP.HyperSearch(model, self.data_loader, self.config,
+                                 fold_id=1,
+                                 train_mode='pretrain_set',
+                                 verbose=self.verbose,
+                                 overwrite=self.overwrite)
+        hp_srch.train()
 
     def system_train(self):
         """
@@ -53,15 +56,9 @@ class DCASEApp(BasePipeline):
 
         for fold_id in self.data_loader.meta_data.nfolds:
             if self.config['model']['do_pretrain']:
-                print('/*========== Pre-training ==========*/')
-                batch_sz = self.config['model']['pretrain_set']['batch']
-                bands = self.config['features']['bands']
-                frame_wnd = self.config['model']['pretrain_set']['context_wnd']
-                feat_dim = (batch_sz, bands, frame_wnd, 1)
+                print('/*========== Pre-training on FOLD %s ==========*/' % fold_id)
 
-                model = CRNNDcaseModel(self.config['model']['pretrain_set'],
-                                       input_shape=feat_dim,
-                                       nclass=nclass)
+                model = self.inflate_model(self.config, nclass, train_mode='pretrain_set')
                 print('Pre-train with loss: %s' % model.model.loss)
 
                 trainer = DCASEModelTrainer(model.model, self.data_loader, self.config,
@@ -72,20 +69,13 @@ class DCASEApp(BasePipeline):
                 trainer.train()
 
             if self.config['model']['do_finetune']:
-                print('/*========== Fine-tuning ==========*/')
+                print('/*========== Fine-tuning on FOLD ==========*/' % fold_id)
                 mfile = cfg.get_model_filename(path=self.config['path']['pretrain_set'],
                                                train_mode='pretrain_set',
                                                fold=fold_id)
-
-                batch_sz = self.config['model']['finetune_set']['batch']
-                bands = self.config['features']['bands']
-                frame_wnd = self.config['model']['pretrain_set']['context_wnd']
-                feat_dim = (batch_sz, bands, frame_wnd, 1)
-
-                pre_model = CRNNDcaseModel(self.config['model']['pretrain_set'],
-                                           input_shape=feat_dim,
-                                           nclass=nclass)
+                pre_model = self.inflate_model(self.config, nclass, train_mode='pretrain_set')
                 pre_model.load(mfile)
+
                 pre_model.chage_optimizer(self.config['model']['finetune_set'])
                 print('Finetune with loss: %s' % pre_model.model.loss)
 
@@ -97,4 +87,45 @@ class DCASEApp(BasePipeline):
                 finetuner.train()
 
     def system_test(self):
-        print('[TODO] test system: store the testing prediction scores...')
+        nclass = len(self.data_loader.meta_data.label_names)
+
+        for fold_id in self.data_loader.meta_data.nfolds:
+            for mode in ['pretrain_set', 'finetune_set']:
+                print('/*========== Test %s model on FOLD %s ==========*/' % (mode, fold_id))
+
+                model = self.inflate_model(self.config, nclass, train_mode=mode)
+                mfile = cfg.get_model_filename(path=self.config['path'][mode],
+                                               train_mode=mode,
+                                               fold=fold_id)
+                model.load(mfile)
+                print('Loss: %s' % model.model.loss)
+
+                test_gen = DL.batch_handler(batch_type='validation',
+                                            data_file=self.data_loader.feat_file,
+                                            fold_lst=self.data_loader.meta_data.fold_list(fold_id, 'test'),
+                                            config=self.config['model'][mode],
+                                            meta_data=self.data_loader.meta_data)
+
+                history = ModelValidator.validate_model(model=model.model,
+                                                        batch_gen=test_gen,
+                                                        metrics=self.config['model'][mode]['metrics'])
+                print(history)
+
+    @staticmethod
+    def inflate_model(config, nclass, train_mode='pretrain_set'):
+        model_type = config['model']['type']
+        batch_sz = config['model'][train_mode]['batch']
+        bands = config['features']['bands']
+        frame_wnd = config['model'][train_mode]['context_wnd']
+        feat_dim = (batch_sz, bands, frame_wnd, 1)
+
+        if model_type == 'crnn_dcase':
+            return CRNNDcaseModel(config['model'][train_mode],
+                                  input_shape=feat_dim,
+                                  nclass=nclass)
+        elif model_type == 'cnn_dcase':
+            return CNNDcaseModel(config['model'][train_mode],
+                                 input_shape=feat_dim,
+                                 nclass=nclass)
+        else:
+            raise ValueError('[ERROR] Unknown model: %s' % model_type)

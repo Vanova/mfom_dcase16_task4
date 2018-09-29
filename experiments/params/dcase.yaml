@@ -5,9 +5,9 @@
 pipeline:
   init_dataset: true
   extract_features: true
-  search_hyperparams: false # true
+  search_hyperparams: false #true
   train_system: true
-  test_system: false #true
+  test_system: true
 
 # ==========================================================
 # General

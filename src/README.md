@@ -4,6 +4,8 @@ Multi-label MFoM framework for DCASE 2016: Task 4
 Project architecture
 ====================
 
+The main abstract classes are in `base` folder.
+
 ![Architecture of the base framework](../docs/figures/architecture_base_framework.png)
 
 
@@ -17,7 +19,7 @@ Structure of packages
 │   ├── feature.py
 │   ├── model.py
 │   ├── pipeline.py
-│   ├── trainer.py
+│   └── trainer.py
 ├── data_loader
 │   ├── dcase.py
 │   └── dcase.pyc
@@ -32,7 +34,6 @@ Structure of packages
 │   └── test_mfom.py
 ├── pipeline
 │   └── dcase.py
-|
 ├── trainer
 │   ├── dcase.py
 │   ├── dcase_hyper.py

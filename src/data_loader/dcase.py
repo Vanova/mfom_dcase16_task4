@@ -65,6 +65,7 @@ class DCASEDataLoader(BaseDataLoader):
                 fid = path.basename(fn)
                 writer.append(file_id=fid, feat=feat)
         writer.close()
+        del writer
         print('Files processed: %d' % len(fnames))
 
     def train_data(self):
@@ -127,8 +128,6 @@ def batch_handler(batch_type, data_file, config, fold_lst=None, meta_data=None):
                                    meta_data=meta_data,
                                    config=config,
                                    shuffle=False)
-    # elif batch_type == "no_lab_gen":
-    #     return NoLabEvalGenerator(feat_file, window, fold_lst)
     else:
         raise ValueError('Unknown batch type [' + batch_type + ']')
 
@@ -175,7 +174,7 @@ class SequentialGenerator(BaseGenerator):
         # Return:
             ndarray [batch_sz; band; frame_wnd; channel]
         """
-        fn = path.basename(self.fold_list[0])
+        fn = path.basename(self.fold_list[0][0])
         sh = np.array(self.hdf[fn]).shape
         bands, _, channels = sh
         assert channels >= 1

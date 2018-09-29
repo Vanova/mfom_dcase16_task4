@@ -34,7 +34,7 @@ class CRNNDcaseModel(BaseModel):
             freq_axis = 1
             nn_shape = (bands, frames, channels)
         else:
-            raise NotImplementedError('[ERROR] only for TensorFlow background.')
+            raise NotImplementedError('[ERROR] Only for TensorFlow background.')
 
         nb_filters = self.config['feature_maps']
 
@@ -47,35 +47,35 @@ class CRNNDcaseModel(BaseModel):
         x = BatchNormalization(axis=channel_axis, mode=0, name='bn1')(x)
         x = ELU()(x)
         x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), name='pool1')(x)
-        x = Dropout(0.1, name='dropout1')(x)
+        x = Dropout(self.config['dropout'], name='dropout1')(x)
 
         # Conv block 2
         x = Convolution2D(nb_filters, 3, 3, border_mode='same', name='conv2')(x)
         x = BatchNormalization(axis=channel_axis, mode=0, name='bn2')(x)
         x = ELU()(x)
         x = MaxPooling2D(pool_size=(4, 2), strides=(4, 2), name='pool2')(x)
-        x = Dropout(0.1, name='dropout2')(x)
+        x = Dropout(self.config['dropout'], name='dropout2')(x)
 
         # Conv block 3
         x = Convolution2D(2 * nb_filters, 3, 3, border_mode='same', name='conv3')(x)
         x = BatchNormalization(axis=channel_axis, mode=0, name='bn3')(x)
         x = ELU()(x)
         x = MaxPooling2D(pool_size=(4, 1), strides=(4, 1), name='pool3')(x)
-        x = Dropout(0.1, name='dropout3')(x)
+        x = Dropout(self.config['dropout'], name='dropout3')(x)
 
         # Conv block 4
         x = Convolution2D(2 * nb_filters, 3, 3, border_mode='same', name='conv4')(x)
         x = BatchNormalization(axis=channel_axis, mode=0, name='bn4')(x)
         x = ELU()(x)
         x = MaxPooling2D(pool_size=(2, 1), strides=(2, 1), name='pool4')(x)
-        x = Dropout(0.1, name='dropout4')(x)
+        x = Dropout(self.config['dropout'], name='dropout4')(x)
 
         x = Reshape((-1, 2 * nb_filters))(x)
 
         # GRU block 1, 2, output
         # x = GRU(32, return_sequences=True, name='gru1')(x)
         x = GRU(32, return_sequences=False, name='gru2')(x)
-        x = Dropout(0.3)(x)
+        x = Dropout(self.config['dropout'])(x)
 
         # Affine transformation
         x = Dense(self.nclass, name='output_preactivation')(x)
@@ -83,10 +83,18 @@ class CRNNDcaseModel(BaseModel):
 
         self._compile_model(input=feat_input, output=y_pred, params=self.config)
 
+    def rebuild(self, new_config):
+        """
+        Recompile the model with the new hyper parameters.
+        NOTE: network topology is changing according to the 'new_config'
+        """
+        self.config.update(new_config)
+        self.build()
+
     def chage_optimizer(self, new_config):
         """
         Recompile the model with the new loss and optimizer.
-        NOTE: Weight structure is not changed.
+        NOTE: network topology is not changing.
         """
         if new_config['freeze_wt']:
             # train only the top layers,

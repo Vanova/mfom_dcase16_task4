@@ -3,7 +3,6 @@ import time
 import json
 import hashlib
 import io
-from enum import Enum
 from dotmap import DotMap
 
 TODAY_DATE = time.strftime('%d_%b_%Y')

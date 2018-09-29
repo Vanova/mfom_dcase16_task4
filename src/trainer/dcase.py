@@ -68,6 +68,7 @@ class DCASEModelTrainer(BaseTrainer):
                           min_delta=0.001))
 
         log_dir = cfg.get_log_dir(self.train_mode, self.fold_id)
+        print('LOG: %s' % log_dir)
         self.callbacks.append(
             TensorBoard(log_dir=log_dir,
                         write_graph=self.config['callback']['tensorboard_write_graph']))
@@ -103,11 +104,11 @@ class DCASEModelTrainer(BaseTrainer):
                 for x, y in xy_gen.batch():
                     yield [y, x], y
 
-            gen = mfom_batch_wrap(train_gen) \
+            wrap_gen = mfom_batch_wrap(train_gen) \
                 if self.is_mfom_objective(self.model) \
                 else train_gen.batch()
 
-            history = self.model.fit_generator(gen,
+            history = self.model.fit_generator(wrap_gen,
                                                steps_per_epoch=samp_sz // batch_sz,
                                                nb_epoch=nepo,
                                                verbose=self.verbose,
@@ -119,8 +120,6 @@ class DCASEModelTrainer(BaseTrainer):
             cv_gen.stop()
         else:
             print('[INFO] There is %s model: %s' % (self.train_mode.upper(), self.model_file))
-            # self.model.load_weights(self.model_file)
-            # TODO store train scores and references
 
 
 class ModelValidator(Callback):

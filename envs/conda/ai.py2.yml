@@ -65,8 +65,9 @@ dependencies:
     - tensorflow-gpu==1.4.1
     - theano==0.9.0
     - librosa==0.5.0
-    #- librosa>=0.4.3 # 0.5.0
     - keras==2.0.2
+    - hyperopt==0.1
+    - networkx==1.11 # for hyperopt
     - pydot==1.0.28
     - pydot-ng>=1.0.0
     - six>=1.10.0
