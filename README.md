@@ -47,7 +47,7 @@ Table of Contents
 - [System results](#system-results)
   * [The GMM baseline model](#the-gmm-baseline-model)
   * [The CRNN baseline model](#the-crnn-baseline-model)
-  * [:+1:The CRNN model with the MFoM embedding](#:+1:the-crnn-model-with-the-mfom-embedding)
+  * [The CRNN model with the MFoM embedding](#the-crnn-model-with-the-mfom-embedding)
   * [Comparison table of results](#comparison-table-of-results)
 - [The MFoM approaches](#the-mfom-approaches)
 - [System parameters](#system-parameters)
