@@ -59,7 +59,7 @@ The usage parameters are shown by executing `python run_dcase.py -h`
 
 The system parameters are defined in `experiments/params/dcase.yaml`. 
 
-## Development mode
+#### Development mode
 
 In this mode the system is trained and tested within the development dataset. 
 This is the default operating mode. To run the system in this mode:
@@ -73,7 +73,7 @@ System results
 
 * Evaluation setup: 5-fold cross-validation, 7 classes.
 
-### GMM baseline model
+#### GMM baseline model
 
 Baseline [github](https://github.com/pafoster/dcase2016_task4/tree/master/baseline). 
 
@@ -82,22 +82,22 @@ System main parameters
 frame size: 20 ms (50% hop size), number of components: 8, 
 features: MFCC 14 static coefficients (excluding 0th coefficient)
 
-     | Tag                  | EER  |
-     |----------------------|------|
-     | Adult female speech  | 0.29 |
-     | Adult male speech    | 0.30 | 
-     | Broadband noise      | 0.09 |
-     | Child speech         | 0.20 |
-     | Other                | 0.29 |
-     | Percussive sound     | 0.25 | 
-     | Video game/tv        | 0.07 | 
-     | **Mean error**       | **0.21** | 
+| Tag                  | EER      |
+| -------------------- | -------- |
+| Adult female speech  | 0.29     |
+| Adult male speech    | 0.30     | 
+| Broadband noise      | 0.09     |
+| Child speech         | 0.20     |
+| Other                | 0.29     |
+| Percussive sound     | 0.25     | 
+| Video game/tv        | 0.07     | 
+| **Mean error**       | **0.21** | 
 
-### CRNN baseline model
+#### CRNN baseline model
 
 
 
-### MFoM approach with CRNN model
+#### MFoM approach with CRNN model
 
 
 The MFoM approaches
