@@ -1,3 +1,17 @@
+"""
+The Maximal Figure-of-Merit training divided in two layers.
+ These are UvZMisclassification and SmoothErrorCounter.
+
+ During the training stage combine your network with MFoM:
+    DNN + UvZMisclassification + SmoothErrorCounter, we feed labels information into the MFoM;
+    as the objective function use one of 'mfom_microf1', 'mfom_eer_normalized' or 'mfom_cprim'
+ During the testing stage cut of the MFoM layers (UvZMisclassification and SmoothErrorCounter):
+    because we don not have label information during testing.
+
+# Citation
+    "Maximal Figure-of-Merit Embedding for Multi-label Audio Classification"
+        I. Kukanov, V. Hautam{\"a}ki, K.A. Lee.
+"""
 from keras import backend as K
 from keras.layers import Layer
 from keras.layers.merge import _Merge
@@ -15,7 +29,6 @@ class UvZMisclassification(_Merge):
         input: list of two arrays
             y_true: labels needed only during training, [batch_sz, nclasses]
             y_pred: activations from the last layer, [batch_sz, nclasses]
-    # Output:
     """
     _EPSILON = K.epsilon()
 
@@ -37,8 +50,8 @@ class UvZMisclassification(_Merge):
         # average over non-zero elements
         zeros_avg = K.log(self._non_zero_mean(zeros_avg))
         # misclassification measure, optimized
-        # TODO NOTE THE RESULT is SIMILAR TO BinXent :)
-        psi = -y_pred + 0.5  # y_neg * unit_avg + y_true * zeros_avg
+        psi = -y_pred + y_neg * unit_avg + y_true * zeros_avg
+        # psi = -y_pred + 0.5 # sometimes works better
         return psi
 
     def _non_zero_mean(self, x):
@@ -50,11 +63,10 @@ class UvZMisclassification(_Merge):
 
 class SmoothErrorCounter(Layer):
     """
-    This is the 2nd-stage of the Maximal Figure-of-Merit.
+    This is the 2nd-stage of the Maximal Figure-of-Merit (MFoM).
     Optimize alpha_k and beta_k - parameters of the Smooth Error function from MFoM.
     l_k = K.sigmoid(alpha_k * d + beta_k)
-
-    see BatchNorm  for optimisation (gamma and beta)
+    similar to BatchNorm for optimisation (gamma and beta)
     """
 
     def __init__(self,
