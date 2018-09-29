@@ -1,6 +1,7 @@
 # Multi-label MFoM framework for DCASE 2016: Task 4
 
-[The SIPU Lab / University of Eastern Finland](https://www.uef.fi/web/machine-learning) <img align="right" width="50" height="50" src="https://www.uef.fi/image/layout_set_logo?img_id=10508&t=1537197327678">
+[The SIPU Lab / University of Eastern Finland](https://www.uef.fi/web/machine-learning) 
+<img align="center" width="50" height="50" src="https://www.uef.fi/image/layout_set_logo?img_id=10508&t=1537197327678">
 
 [Institute for Infocomm Research / A*Star / Singapore](https://www.a-star.edu.sg/i2r)
 
@@ -215,7 +216,8 @@ versus indirect optimization approaches with MSE, cross-entropy, binary cross-en
 System parameters
 =================================
 
-The parameters are set in `experiments/params/dcase.yaml`.
+The parameters of the system are in `experiments/params/dcase.yaml`.
+It contains the next blocks. 
 
 **Controlling the system pipeline flow**
 
