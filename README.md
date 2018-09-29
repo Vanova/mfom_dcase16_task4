@@ -11,8 +11,8 @@ Author: **Ivan Kukanov**, [Email](mailto:ivan@kukanov.com), [Homepage](http://ww
 
 Supervisor: **Ville Hautamäki**, [Email](mailto:villeh@uef.fi), [Homepage](http://cs.joensuu.fi/~villeh/)
   
-Description
-===========
+About
+=====
 This framework represents the implementation of the [maximal figure-of-merit](http://cs.joensuu.fi/~villeh/MFoM-ICASSP2017.pdf) (MFoM) approach 
 for multi-label tasks. In particular, it is applied to the [domestic audio tagging task](http://www.cs.tut.fi/sgn/arg/dcase2016/task-audio-tagging) 
  of the DCASE 2016: task 4 challenge. This project represents the solution for the problem of the domestic audio tagging, 
@@ -35,7 +35,8 @@ The proposed MFoM approaches are used in the series of works
 * [Deep learning with Maximal Figure-of-Merit Cost to Advance Multi-label Speech Attribute Detection](http://cs.joensuu.fi/~villeh/slt_2016.pdf)
 
 
-## Table of Contents
+Table of Contents
+=================
 <!-- ⛔️ MD-MAGIC-EXAMPLE:START (TOC:collapse=true&collapseText=Click to expand) -->
 <details>
 <summary>Click to expand</summary>
