@@ -229,7 +229,7 @@ Performance measure is the equal error rate (EER) per audio tag
 
 
 
-📌 The MFoM approaches
+ 📌 The MFoM approaches
 =====================
 
 In this project we release bunch of MFoM approaches. These are *MFoM embedding*, 
