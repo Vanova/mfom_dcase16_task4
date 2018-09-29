@@ -194,7 +194,7 @@ In all the hidden layers the exponential linear units
 The binary cross-entropy objective function (BCE) is optimized using Adam
 optimization algorithm with the learning rate 10−3.  
 
-### The MFoM embedding approach with CRNN model
+### The MFoM embedding with CRNN model
 
 For the CRNN model with MFoM we use the above mentioned baseline CRNN model weights.
 The only thing we change is the optimization, we finetune the pre-trained model 
