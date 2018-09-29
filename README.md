@@ -1,6 +1,6 @@
 # Multi-label MFoM framework for DCASE 2016: Task 4
 
-[The SIPU Lab / University of Eastern Finland](https://www.uef.fi/web/machine-learning) <img align="left" width="100" height="100" src="https://www.uef.fi/image/layout_set_logo?img_id=10508&t=1537197327678">
+[The SIPU Lab / University of Eastern Finland](https://www.uef.fi/web/machine-learning) <img align="right" width="50" height="50" src="https://www.uef.fi/image/layout_set_logo?img_id=10508&t=1537197327678">
 
 [Institute for Infocomm Research / A*Star / Singapore](https://www.a-star.edu.sg/i2r)
 
