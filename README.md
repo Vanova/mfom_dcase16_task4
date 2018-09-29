@@ -194,7 +194,7 @@ In all the hidden layers the exponential linear units
 The binary cross-entropy objective function (BCE) is optimized using Adam
 optimization algorithm with the learning rate 10−3.  
 
-### CRNN model with the MFoM embedding
+### 📌 The CRNN model with the MFoM embedding
 
 For the CRNN model with MFoM we use the above mentioned baseline CRNN model weights.
 The only thing we change is the optimization, we finetune the pre-trained model 
@@ -212,7 +212,7 @@ with our proposed MFoM embedding approach. It is implemented in `src/model/objec
 [Presentation at the ICASSP 2018](https://sigport.org/documents/maximal-figure-merit-embedding-multi-label-audio-classification)
 
 
-### Comparison table of results
+### 📌 Comparison table of results
 
 Performance measure is the equal error rate (EER) per audio tag
 
@@ -229,7 +229,7 @@ Performance measure is the equal error rate (EER) per audio tag
 
 
 
-The MFoM approaches
+📌 The MFoM approaches
 ===================
 
 In this project we release bunch of MFoM approaches. These are MFoM embedding, 
