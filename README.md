@@ -53,7 +53,7 @@ Table of Contents
 - [System parameters](#system-parameters)
 - [Changelog](#changelog)
 - [Citation](#citation)
-- [License](#license)
+- [License](#license) 
 
 </details>
 <!-- ⛔️ MD-MAGIC-EXAMPLE:END -->
@@ -230,10 +230,10 @@ Performance measure is the equal error rate (EER) per audio tag
 
 
 📌 The MFoM approaches
-===================
+=====================
 
-In this project we release bunch of MFoM approaches. These are MFoM embedding, 
-MFoM-microF1, MFoM-EER, MFoM-Cprim. 
+In this project we release bunch of MFoM approaches. These are *MFoM embedding*, 
+*MFoM-microF1*, *MFoM-EER*, *MFoM-Cprim*. 
 These approaches allow to optimize the performance metrics directly 
 versus indirect optimization approaches with MSE, cross-entropy, binary cross-entropy
   and other objective functions. 
