@@ -8,9 +8,10 @@
         Author:  Ivan Kukanov
 
     Usage:
-        run_dcase.py [-p FILE] [-m (dev|sub)] [-n] [--overwrite] [--quiet | --verbose]
-        run_dcase.py -m dev -p file.yaml --verbose
-        run_dcase.py -m sub -p file.yaml
+        run_dcase.py -m (dev|sub) [-p FILE] [-n] [--overwrite] [--quiet | --verbose]
+        run_dcase.py -m dev
+        run_dcase.py -m dev -p file.yaml
+        run_dcase.py -m sub -p file.yaml --verbose
         run_dcase.py (-s | --show_params)
         run_dcase.py (-h | --help)
         run_dcase.py (-v | --version)
@@ -21,7 +22,7 @@
         -s --show_params        Show available configuration files  [default: False].
         -m --mode               System mode: development (dev) / submission or evaluation (sub) [default: dev].
         -n --node               Node mode                           [default: False].
-        -p FILE, --params FILE  Model configuration file            [default: params/default.yaml].
+        -p FILE, --params FILE  Model configuration file            [default: params/dcase.yaml].
         --overwrite             Force to overwrite model data       [default: False].
         --quite                 Output less log information         [default: False].
         --verbose               Output detailed log information     [default: False].
@@ -69,8 +70,7 @@ def main(args):
             app.system_test()
 
     elif args['--mode'] and args['sub']:
-        print('Evaluation submission run...')
-        # app.system_test()
+        print('[TODO] Submission mode will be run here...')
 
 
 if __name__ == '__main__':
