@@ -1,6 +1,6 @@
 # Multi-label MFoM framework for DCASE 2016: Task 4
 
-<img align="right" width="120" height="90" src="./docs/figures/uef_logo.png">
+<img align="right" width="120" height="70" src="./docs/figures/uef_logo.png">
 <img align="right" width="150" height="75" src="./docs/figures/i2r_astar_logo.jpg">
 
 [The SIPU Lab / University of Eastern Finland](https://www.uef.fi/web/machine-learning) 
