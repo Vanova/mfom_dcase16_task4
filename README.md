@@ -41,8 +41,10 @@ The proposed MFoM approaches are used in the series of works
 <summary>Click to expand</summary>
 
 - [About](#about)
-- [Install](#Install)
+- [Install](#install)
 - [Usage](#usage)
+- [The GMM baseline model](#the-gmm-baseline-model)
+- [The CRNN baseline model](#the-crnn-baseline-model)
 - [System results](#system-results)
 - [License](#license)
 
