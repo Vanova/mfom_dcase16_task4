@@ -1,6 +1,6 @@
 # Multi-label MFoM framework for DCASE 2016: Task 4
 <p align="right">
-<img width="150" height="100" src="./docs/figures/uef_logo.png">
+<img width="130" height="100" src="./docs/figures/uef_logo.png">
 <img width="150" height="75" src="./docs/figures/i2r_astar_logo.jpg">
 </p>
 
