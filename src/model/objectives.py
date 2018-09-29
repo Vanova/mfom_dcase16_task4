@@ -63,6 +63,7 @@ def mfom_cprim(y_true, y_pred):
 def mfom_eer_embed(y_true, y_pred):
     """
     MFoM embedding: use MFoM scores as new "soft labels", aka Dark Knowledge by Hinton
+    We apply MFoM n_embed = 2 times. We notice that it works better.
        y_true: [batch_sz, nclasses]
        y_pred: sigmoid scores, we preprocess these to d_k and l_k, i.e. loss function l_k(Z)
    """

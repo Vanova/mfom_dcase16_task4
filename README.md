@@ -26,7 +26,7 @@ learning objective function and gain more than 10% relative
 improvement, compared to the baseline model with the binary
 cross-entropy.
 
-The proposed MFoM approaches are used in the series of works:
+The proposed MFoM approaches are used in the series of works
 
 * [Maximal Figure-of-Merit Embedding for Multi-label Audio Classification](http://cs.joensuu.fi/~villeh/MFoM-ICASSP2017.pdf)
 * [Recurrent Neural Network and Maximal Figure of Merit for Acoustic Event Detection](http://www.cs.tut.fi/sgn/arg/dcase2017/documents/challenge_technical_reports/DCASE2017_Kukanov_196.pdf)
@@ -45,6 +45,8 @@ You can install the python environment using [Conda](https://conda.io/docs/) and
 and activate the environment 
 
 `$ source activate ai`
+
+Specifically the project is working with Keras 2.0.2, Tensorflow-GPU 1.4.1.
 
 Usage
 =====
@@ -87,7 +89,7 @@ The equal error rate (EER) results per tag:
 
 
 
-#### GMM baseline model
+#### The GMM baseline model
 
 Baseline [github](https://github.com/pafoster/dcase2016_task4/tree/master/baseline). 
 
@@ -96,11 +98,11 @@ System main parameters
 frame size: 20 ms (50% hop size), number of components: 8, 
 features: MFCC 14 static coefficients (excluding 0th coefficient)
 
-#### CRNN baseline model
+#### The CRNN baseline model
 
-The baseline convolutional recurrent neural network with setting 
+The baseline model is the convolutional recurrent neural network 
 
-![CRNN architecture](reports/figures/cnn_rnn_arch_spec.png "Title")
+![CRNN architecture](reports/figures/cnn_rnn_arch_spec.png)
 
 The input features are 64-dimensional log-Mel filter banks spanning from 0 to 16kHz
 Context window is the size of 96 frames. We sequentially apply four convolution
@@ -119,7 +121,10 @@ You can fined the detailed description of the system in the paper
 
 For the CRNN model with MFoM we use the above mentioned baseline CRNN model weights.
 The only thing we change is the optimization, we finetune the pre-trained model 
-with our proposed MFoM embedding approach. 
+with our proposed MFoM embedding approach. It is implemented in `src/model/objectives.py`
+ as `mfom_eer_embed`.
+ 
+ [The MFoM embedding in the objective function](reports/figures/mfom_embed_arch.png)
 
 The MFoM approaches
 ===================
@@ -129,6 +134,8 @@ MFoM-microF1, MFoM-EER, MFoM-Cprim.
 These approaches allow to optimize the performance metrics directly 
 versus indirect optimization approaches with MSE, cross-entropy, binary cross-entropy
   and other objective functions.
+
+**Note**: the more detailed description will be presented soon.
 
 Changelog
 =========
@@ -140,4 +147,4 @@ Changelog
 License
 =======
 
-This software is released under the terms of the [MIT License].
+This software is released under the terms of the [MIT License](./LICENSE).
